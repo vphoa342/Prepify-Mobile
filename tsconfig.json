@@ -15,7 +15,7 @@
         "src/components"
       ],
       "@pages": [
-        "src/pages"
+        "src/screens"
       ],
       "@hooks": [
         "src/hooks"
