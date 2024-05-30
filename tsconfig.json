@@ -5,20 +5,26 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "@services": [
-        "src/services"
+      "$services/*": [
+        "src/services/*"
       ],
-      "@configs": [
-        "src/configs"
+      "$configs/*": [
+        "src/configs/*"
       ],
-      "@components": [
-        "src/components"
+      "$components/*": [
+        "src/components/*"
       ],
-      "@pages": [
-        "src/screens"
+      "$pages/*": [
+        "src/screens/*"
       ],
-      "@hooks": [
-        "src/hooks"
+      "$hooks/*": [
+        "src/hooks/*"
+      ],
+      "$types/*": [
+        "src/types/*"
+      ],
+      "$utils/*": [
+        "src/utils/*"
       ],
     },
   },
