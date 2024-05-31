@@ -1,15 +1,22 @@
-import { View, Text } from "react-native";
-import React, { useContext } from "react";
-import { AuthContext } from "src/contexts/auth/AuthContext";
+import { signOut } from "$contexts/auth/auth.reducer";
+import useAuth from "$hooks/useAuth";
+import React from "react";
+import { Text, View } from "react-native";
+import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Home = () => {
-    const { user } = useContext(AuthContext);
+const Home = ({ navigation }: { navigation: any }) => {
+    const { user, dispatch } = useAuth();
+
+    const handleLogout = () => {
+        dispatch(signOut());
+    };
 
     return (
         <SafeAreaView>
             <View>
                 <Text>Welcome {user?.fullname}</Text>
+                <Button onPress={handleLogout}>Logout</Button>
             </View>
         </SafeAreaView>
     );
