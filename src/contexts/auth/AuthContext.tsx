@@ -36,20 +36,19 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     useEffect(() => {
         (async () => {
             const accessToken = await getValue(ACCESS_TOKEN_KEY);
-            console.log(accessToken);
             if (!accessToken) {
                 return dispatch(
                     initialize({ isAuthenticated: false, user: null })
                 );
             }
 
-            try {
-                const { data } = await userRefetch();
-                if (data) {
-                    const user = data.data.data.user;
-                    dispatch(initialize({ isAuthenticated: true, user }));
-                }
-            } catch (error) {
+            const { data, error } = await userRefetch();
+            if (data) {
+                const user = data.data.data.user;
+                dispatch(initialize({ isAuthenticated: true, user }));
+            }
+
+            if (error) {
                 Toast.show({
                     type: "error",
                     text1: "Error",

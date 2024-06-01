@@ -5,6 +5,9 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
+      "$apis/*": [
+        "src/apis/*"
+      ],
       "$services/*": [
         "src/services/*"
       ],
@@ -17,7 +20,7 @@
       "$contexts/*": [
         "src/contexts/*"
       ],
-      "$pages/*": [
+      "$screens/*": [
         "src/screens/*"
       ],
       "$hooks/*": [

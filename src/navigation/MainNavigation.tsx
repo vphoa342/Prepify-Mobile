@@ -1,5 +1,5 @@
-import AboutScreen from "$pages/AboutScreen";
-import HomeScreen from "$pages/HomeScreen";
+import AboutScreen from "$screens/AboutScreen";
+import HomeScreen from "$screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeIcon, SettingsIcon } from "lucide-react-native";
 import React from "react";

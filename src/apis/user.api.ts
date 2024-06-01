@@ -1,5 +1,4 @@
-import axios from "axios";
-import { LoginFormType } from "$pages/LoginScreen/LoginScreen";
+import { LoginFormType } from "$screens/LoginScreen/LoginScreen";
 import { AuthResponse } from "$types/auth.type";
 import { GoogleUrlResponse, UserResponse } from "$types/user.type";
 import http from "$utils/http";
@@ -22,3 +21,9 @@ export const getGoogleAuthUrl = () => {
 export const loginWithGoogle = (code: string | null, signal?: AbortSignal) => {
     return http.post<AuthResponse>("/login/google", { code }, { signal });
 };
+
+export const forgotPassword = (email: string) =>
+    http.post("/forgot-password", { email });
+
+export const resetPassword = (token: string, password: string) =>
+    http.post("/reset-password", { token, password });
