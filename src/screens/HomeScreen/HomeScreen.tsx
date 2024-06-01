@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Home = ({ navigation }: { navigation: any }) => {
+const HomeScreen = ({ navigation }: { navigation: any }) => {
     const { user, dispatch } = useAuth();
 
     const handleLogout = () => {
@@ -22,4 +22,4 @@ const Home = ({ navigation }: { navigation: any }) => {
     );
 };
 
-export default Home;
+export default HomeScreen;

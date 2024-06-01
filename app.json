@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Prepify-Mobile",
+    "scheme": "prepify",
     "slug": "Prepify-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",

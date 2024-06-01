@@ -40,7 +40,6 @@ class Http {
             async (response) => {
                 const { url, method } = response.config;
                 if (method === "post" && url === configs.routes.login) {
-                    console.log(response.data);
                     this.accessToken = (
                         response.data as AuthResponse
                     ).data.access_token;
