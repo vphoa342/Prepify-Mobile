@@ -3,15 +3,22 @@ import { signIn } from "$contexts/auth/auth.reducer";
 import useDispatchAuth from "$hooks/useDispatchAuth";
 import { AUTH_MESSAGES } from "$utils/constant";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { Linking, Text, View } from "react-native";
 import { Button, Surface, TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-import { getMe, login } from "src/apis/user.api";
+import {
+    getGoogleAuthUrl,
+    getGoogleUrlQueryKey,
+    getMe,
+    getMeQueryKey,
+    login,
+    loginWithGoogle,
+} from "src/apis/user.api";
 import { AuthContext } from "src/contexts/auth/AuthContext";
 import { z } from "zod";
 
@@ -25,8 +32,36 @@ const STALE_TIME_GOOGLE_AUTH_URL = 1000 * 60 * 60; // 1 hour
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
     const theme = useTheme();
-
     // -----------------------------LOGIN WITH GOOGLE---------------------------------
+    const { data: googleUrl } = useQuery({
+        queryKey: [getGoogleUrlQueryKey],
+        queryFn: () => getGoogleAuthUrl(),
+        staleTime: STALE_TIME_GOOGLE_AUTH_URL,
+        refetchOnWindowFocus: false,
+    });
+
+    const url = useMemo(
+        () => (googleUrl && googleUrl.data.data.url) || "",
+        [googleUrl]
+    );
+
+    // Mutation for login with google
+    const { mutate: googleMutate } = useMutation({
+        mutationFn: ({
+            code,
+            signal,
+        }: {
+            code: string;
+            signal?: AbortSignal;
+        }) => loginWithGoogle(code, signal),
+    });
+
+    // // Query for get user info
+    // const { refetch: userRefetch } = useQuery({
+    //     queryKey: [getMeQueryKey],
+    //     queryFn: () => getMe(),
+    //     enabled: false,
+    // });
 
     const {
         control,
@@ -79,8 +114,19 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
         navigation.navigate("ForgotPassword");
     };
 
-    const handleLoginWithGoogle = () => {
+    const handleLoginWithGoogle = async () => {
         // Handle login with Google
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            Toast.show({
+                type: "error",
+                text1: "Error",
+                text2: `Don't know how to open this URL: ${url}`,
+            });
+        }
     };
 
     return (

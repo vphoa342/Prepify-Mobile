@@ -13,12 +13,13 @@ export const AppNavigation = () => {
 
     const config = {
         screens: {
+            Login: "login",
             ResetPassword: "reset-password",
         },
     };
 
     const linking = {
-        prefixes: [prefix],
+        prefixes: [prefix, "https://prepify.thanhf.dev"],
         config,
     };
     return (

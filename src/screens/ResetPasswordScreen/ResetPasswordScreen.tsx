@@ -40,7 +40,7 @@ const ResetPasswordScreen = ({
         defaultValues: resetPasswordFormDefaultValues,
     });
 
-    const token = route.params?.token;
+    const { token } = route.params;
 
     // Mutation reset password
     const { mutate: resetPasswordMutate, isPending: isResetPasswordPending } =
