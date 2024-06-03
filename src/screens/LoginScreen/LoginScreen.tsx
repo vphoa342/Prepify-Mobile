@@ -1,7 +1,8 @@
 import { loginSchema } from "$components/common/AuthForm/AuthForm.schema";
+import StyledButton from "$components/ui/StyledButton";
 import { signIn } from "$contexts/auth/auth.reducer";
-import useDispatchAuth from "$hooks/useDispatchAuth";
 import { AUTH_MESSAGES } from "$utils/constant";
+import { TeddyConfig, teddyChecking, teddyHandsUp } from "$utils/rive";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
@@ -11,11 +12,11 @@ import { Linking, Text, View } from "react-native";
 import { Button, Surface, TextInput, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import Rive, { Alignment, RiveRef } from "rive-react-native";
 import {
     getGoogleAuthUrl,
     getGoogleUrlQueryKey,
     getMe,
-    getMeQueryKey,
     login,
     loginWithGoogle,
 } from "src/apis/user.api";
@@ -31,6 +32,7 @@ const loginFormDefaultValues: LoginFormType = {
 const STALE_TIME_GOOGLE_AUTH_URL = 1000 * 60 * 60; // 1 hour
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
+    const riveRef = React.useRef<RiveRef>(null);
     const theme = useTheme();
     // -----------------------------LOGIN WITH GOOGLE---------------------------------
     const { data: googleUrl } = useQuery({
@@ -132,8 +134,26 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <Surface className="rounded-xl p-6" elevation={2}>
-                    <Text className="text-2xl font-bold mb-4 w-full text-center">
+                <Surface
+                    className="rounded-xl p-6 relative"
+                    style={{ height: 500 }}
+                    elevation={2}
+                >
+                    <Rive
+                        resourceName={TeddyConfig.resourceName}
+                        stateMachineName={TeddyConfig.stateMachineName}
+                        style={{
+                            width: 300,
+                            height: 300,
+                            position: "absolute",
+                            top: -200,
+                            left: 25,
+                        }}
+                        autoplay={false}
+                        ref={riveRef}
+                        alignment={Alignment.Center}
+                    />
+                    <Text className="text-2xl font-bold mb-4 w-full text-center mt-20">
                         Welcome back
                     </Text>
                     <Text className="text-gray-700">Tài khoản</Text>
@@ -142,13 +162,21 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                         name="phone"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                className="mb-4"
-                                label="Số điện thoại"
-                                onBlur={onBlur}
+                                className="mb-2"
+                                dense={true}
+                                placeholder="Số điện thoại"
+                                mode="outlined"
+                                onBlur={() => {
+                                    onBlur();
+                                    teddyChecking(riveRef, false);
+                                }}
                                 onChangeText={onChange}
                                 value={value}
                                 textContentType="telephoneNumber"
                                 keyboardType="phone-pad"
+                                onFocus={() => {
+                                    teddyChecking(riveRef, true);
+                                }}
                             />
                         )}
                     />
@@ -163,11 +191,19 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                         name="password"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                label="Mật khẩu"
+                                placeholder="Mật khẩu"
                                 className="mb-4"
-                                onBlur={onBlur}
+                                mode="outlined"
+                                dense={true}
+                                onBlur={(e) => {
+                                    onBlur();
+                                    teddyHandsUp(riveRef, false);
+                                }}
                                 onChangeText={onChange}
                                 value={value}
+                                onFocus={() => {
+                                    teddyHandsUp(riveRef, true);
+                                }}
                                 secureTextEntry
                             />
                         )}
@@ -178,26 +214,26 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                         </Text>
                     )}
                     <View className="flex-row justify-between items-center mt-4">
-                        <Button
+                        <StyledButton
                             className="flex-1"
                             mode="contained"
                             onPress={handleSubmit(handleLogin)}
                         >
                             Đăng nhập
-                        </Button>
+                        </StyledButton>
                         <Button className="ml-4" onPress={handleForgotPassword}>
                             Quên mật khẩu?
                         </Button>
                     </View>
-                    <Button
+                    <StyledButton
+                        style={{ backgroundColor: theme.colors.primary }}
                         className="mt-4"
                         mode="contained"
                         onPress={handleLoginWithGoogle}
                         icon="google"
-                        color={theme.colors.primary}
                     >
                         Tiếp tục với Google
-                    </Button>
+                    </StyledButton>
                 </Surface>
             </View>
         </SafeAreaView>
@@ -206,5 +242,4 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
 export default LoginScreen;
 
-// TODO: Change border of button
 // TODO:  Authorization just shipper can login

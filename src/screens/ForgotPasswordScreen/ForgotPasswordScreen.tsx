@@ -1,17 +1,20 @@
-import { Text, View } from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Surface, TextInput } from "react-native-paper";
-import { z } from "zod";
 import { forgotPasswordSchema } from "$components/common/AuthForm/AuthForm.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import StyledButton from "$components/ui/StyledButton";
 import useCountdown from "$hooks/useCountdown";
-import { useMutation } from "@tanstack/react-query";
-import { forgotPassword } from "src/apis/user.api";
-import Toast from "react-native-toast-message";
 import { USER_MESSAGES } from "$utils/constant";
 import isAxiosError from "$utils/isAxiosError";
+import { TeddyConfig, teddyChecking } from "$utils/rive";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Text, View } from "react-native";
+import { Surface, TextInput } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import Rive, { Alignment, RiveRef } from "rive-react-native";
+import { forgotPassword } from "src/apis/user.api";
+import { z } from "zod";
 
 export type ForgotPasswordFormType = z.infer<typeof forgotPasswordSchema>;
 const forgotPasswordFormDefaultValues: ForgotPasswordFormType = {
@@ -21,6 +24,7 @@ const forgotPasswordFormDefaultValues: ForgotPasswordFormType = {
 const COUNT_START = 60;
 
 const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
+    const riveRef = React.useRef<RiveRef>(null);
     const [count, { startCountdown }] = useCountdown({
         countStart: COUNT_START,
     });
@@ -81,8 +85,26 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <Surface className="rounded-xl p-6" elevation={2}>
-                    <Text className="text-2xl font-bold mb-4 w-full text-center">
+                <Surface
+                    className="rounded-xl p-6 relative"
+                    style={{ height: 400 }}
+                    elevation={2}
+                >
+                    <Rive
+                        resourceName={TeddyConfig.resourceName}
+                        stateMachineName={TeddyConfig.stateMachineName}
+                        style={{
+                            width: 300,
+                            height: 300,
+                            position: "absolute",
+                            top: -200,
+                            left: 25,
+                        }}
+                        autoplay={false}
+                        ref={riveRef}
+                        alignment={Alignment.Center}
+                    />
+                    <Text className="text-2xl font-bold mb-4 mt-20 w-full text-center">
                         Quên mật khẩu
                     </Text>
                     <Text className="mb-1 text-slate-500">
@@ -102,9 +124,17 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 className="mb-1"
-                                onBlur={onBlur}
+                                mode="outlined"
+                                dense={true}
+                                onBlur={() => {
+                                    onBlur();
+                                    teddyChecking(riveRef, false);
+                                }}
                                 onChangeText={onChange}
                                 value={value}
+                                onFocus={() => {
+                                    teddyChecking(riveRef, true);
+                                }}
                                 placeholder="customer@example.com"
                             />
                         )}
@@ -116,25 +146,25 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                     )}
 
                     <View className="flex-row justify-between items-center mt-4">
-                        <Button
+                        <StyledButton
                             className="flex-1"
                             mode="contained"
                             onPress={handleSubmit(handleForgotPassword)}
                         >
                             Lấy lại mật khẩu
-                        </Button>
-                        <Button className="ml-4" onPress={handleLogin}>
+                        </StyledButton>
+                        <StyledButton className="ml-4" onPress={handleLogin}>
                             Đã có tài khoản?
-                        </Button>
+                        </StyledButton>
                     </View>
-                    <Button
+                    <StyledButton
                         className="mt-4"
                         mode="contained"
                         onPress={handleLoginWithGoogle}
                         icon="google"
                     >
                         Tiếp tục với Google
-                    </Button>
+                    </StyledButton>
                 </Surface>
             </View>
         </SafeAreaView>

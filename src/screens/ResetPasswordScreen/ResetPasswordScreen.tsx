@@ -1,16 +1,19 @@
-import { View } from "react-native";
-import { Button, Surface, Text, TextInput } from "react-native-paper";
-import React from "react";
-import { resetPasswordSchema } from "$components/common/AuthForm/AuthForm.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { z } from "zod";
-import { isAxiosError } from "axios";
-import { SYSTEM_MESSAGES, USER_MESSAGES } from "$utils/constant";
-import Toast from "react-native-toast-message";
-import { useMutation } from "@tanstack/react-query";
 import { resetPassword } from "$apis/user.api";
+import { resetPasswordSchema } from "$components/common/AuthForm/AuthForm.schema";
+import StyledButton from "$components/ui/StyledButton";
+import { USER_MESSAGES } from "$utils/constant";
+import { TeddyConfig, teddyHandsUp } from "$utils/rive";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { View } from "react-native";
+import { Surface, Text, TextInput } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import Rive, { Alignment, RiveRef } from "rive-react-native";
+import { z } from "zod";
 
 export interface ResetPasswordProps {
     token?: string | null;
@@ -29,6 +32,7 @@ const ResetPasswordScreen = ({
     navigation: any;
     route: any;
 }) => {
+    const riveRef = React.useRef<RiveRef>(null);
     const {
         control,
         handleSubmit,
@@ -95,8 +99,26 @@ const ResetPasswordScreen = ({
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <Surface className="rounded-xl p-6" elevation={2}>
-                    <Text className="text-2xl font-bold mb-4 w-full text-center">
+                <Surface
+                    className="rounded-xl p-6 relative"
+                    style={{ height: 600 }}
+                    elevation={2}
+                >
+                    <Rive
+                        resourceName={TeddyConfig.resourceName}
+                        stateMachineName={TeddyConfig.stateMachineName}
+                        style={{
+                            width: 300,
+                            height: 300,
+                            position: "absolute",
+                            top: -200,
+                            left: 25,
+                        }}
+                        autoplay={false}
+                        ref={riveRef}
+                        alignment={Alignment.Center}
+                    />
+                    <Text className="text-2xl font-bold mb-4 mt-20 w-full text-center">
                         Đặt lại mật khẩu
                     </Text>
                     <Text className="mb-1 text-slate-500">
@@ -110,10 +132,19 @@ const ResetPasswordScreen = ({
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 className="mb-4"
-                                onBlur={onBlur}
+                                placeholder="Mật khẩu mới"
+                                mode="outlined"
+                                dense={true}
+                                onBlur={(e) => {
+                                    onBlur();
+                                    teddyHandsUp(riveRef, false);
+                                }}
                                 onChangeText={onChange}
                                 value={value}
                                 secureTextEntry
+                                onFocus={() => {
+                                    teddyHandsUp(riveRef, true);
+                                }}
                             />
                         )}
                     />
@@ -130,12 +161,20 @@ const ResetPasswordScreen = ({
                         name="confirmPassword"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                label="Mật khẩu"
+                                placeholder="Nhập lại mật khẩu"
+                                mode="outlined"
+                                dense={true}
                                 className="mb-4"
-                                onBlur={onBlur}
+                                onBlur={(e) => {
+                                    onBlur();
+                                    teddyHandsUp(riveRef, false);
+                                }}
                                 onChangeText={onChange}
                                 value={value}
                                 secureTextEntry
+                                onFocus={() => {
+                                    teddyHandsUp(riveRef, true);
+                                }}
                             />
                         )}
                     />
@@ -145,25 +184,25 @@ const ResetPasswordScreen = ({
                         </Text>
                     )}
                     <View className="flex-row justify-between items-center mt-4">
-                        <Button
+                        <StyledButton
                             className="flex-1"
                             mode="contained"
                             onPress={handleSubmit(handleResetPassword)}
                         >
                             Đặt lại mật khẩu
-                        </Button>
-                        <Button className="ml-4" onPress={handleLogin}>
+                        </StyledButton>
+                        <StyledButton className="ml-4" onPress={handleLogin}>
                             Đã có tài khoản?
-                        </Button>
+                        </StyledButton>
                     </View>
-                    <Button
+                    <StyledButton
                         className="mt-4"
                         mode="contained"
                         onPress={handleLoginWithGoogle}
                         icon="google"
                     >
                         Tiếp tục với Google
-                    </Button>
+                    </StyledButton>
                 </Surface>
             </View>
         </SafeAreaView>
