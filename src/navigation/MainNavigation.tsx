@@ -1,3 +1,4 @@
+import BoxIcon from "$components/common/Icon/BoxIcon";
 import AboutScreen from "$screens/AboutScreen";
 import HomeScreen from "$screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,9 +17,10 @@ export const MainNavigation = () => {
                 name="Home"
                 component={HomeScreen}
                 options={{
-                    tabBarLabel: "Home",
+                    tabBarLabel: "Đơn hàng",
                     tabBarIcon: ({ color, size }) => {
-                        return <HomeIcon size={size} color={color} />;
+                        // return <HomeIcon size={size} color={color} />;
+                        return <BoxIcon size={size} color={color} />;
                     },
                 }}
             />

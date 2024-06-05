@@ -20,7 +20,7 @@ export const AppNavigation = () => {
     };
 
     const linking = {
-        prefixes: [prefix, "https://prepify.thanhf.dev"],
+        prefixes: [prefix, "https://prepify.thanhf.dev/app"],
         config,
     };
     return (
