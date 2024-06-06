@@ -159,6 +159,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                     </View>
                     <StyledButton
                         mode="contained"
+                        className="mt-2"
                         onPress={handleLoginWithGoogle}
                         icon="google"
                     >
