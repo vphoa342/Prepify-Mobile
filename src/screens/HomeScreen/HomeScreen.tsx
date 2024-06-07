@@ -1,23 +1,21 @@
-import { signOut } from "$contexts/auth/auth.reducer";
+import OrderListView from "$components/common/Home/OrderListView";
+import ShipmentOverviewCard from "$components/common/Home/ShipmentOverviewCard";
+import WelcomeCard from "$components/common/Home/WelcomeCard";
 import useAuth from "$hooks/useAuth";
 import React from "react";
-import { Text, View } from "react-native";
-import { Button } from "react-native-paper";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
     const { user, dispatch } = useAuth();
 
-    const handleLogout = () => {
-        dispatch(signOut());
-    };
-
     return (
-        <SafeAreaView>
-            <View>
-                <Text>Welcome {user?.fullname}</Text>
-                <Button onPress={handleLogout}>Logout</Button>
-            </View>
+        <SafeAreaView className="px-4 py-4">
+            <ScrollView>
+                <WelcomeCard userName={user?.fullname ?? ""} />
+                <ShipmentOverviewCard />
+                <OrderListView />
+            </ScrollView>
         </SafeAreaView>
     );
 };

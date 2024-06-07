@@ -9,7 +9,13 @@ import { isAxiosError } from "axios";
 import React, { useContext, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Linking, Text, View } from "react-native";
-import { Button, Surface, TextInput, useTheme } from "react-native-paper";
+import {
+    Button,
+    HelperText,
+    Surface,
+    TextInput,
+    useTheme,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import Rive, { Alignment, RiveRef } from "rive-react-native";
@@ -31,7 +37,15 @@ const loginFormDefaultValues: LoginFormType = {
 
 const STALE_TIME_GOOGLE_AUTH_URL = 1000 * 60 * 60; // 1 hour
 
-const LoginScreen = ({ navigation }: { navigation: any }) => {
+const LoginScreen = ({
+    navigation,
+    route,
+}: {
+    navigation: any;
+    route: any;
+}) => {
+    const code = route.params?.code;
+    console.log(code);
     const riveRef = React.useRef<RiveRef>(null);
     const theme = useTheme();
     // -----------------------------LOGIN WITH GOOGLE---------------------------------
@@ -162,7 +176,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                         name="phone"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                className="mb-2"
+                                className=""
                                 dense={true}
                                 placeholder="Số điện thoại"
                                 mode="outlined"
@@ -180,19 +194,20 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                             />
                         )}
                     />
-                    {errors.phone && (
-                        <Text className="text-red-500">
-                            {errors.phone.message}
-                        </Text>
-                    )}
-                    <Text className="mt-2 text-gray-700">Mật khẩu</Text>
+                    <HelperText
+                        type="error"
+                        visible={errors.phone ? true : false}
+                    >
+                        {errors.phone?.message}
+                    </HelperText>
+                    <Text className=" text-gray-700">Mật khẩu</Text>
                     <Controller
                         control={control}
                         name="password"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 placeholder="Mật khẩu"
-                                className="mb-4"
+                                className=""
                                 mode="outlined"
                                 dense={true}
                                 onBlur={(e) => {
@@ -208,12 +223,13 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                             />
                         )}
                     />
-                    {errors.password && (
-                        <Text className="text-red-500">
-                            {errors.password.message}
-                        </Text>
-                    )}
-                    <View className="flex-row justify-between items-center mt-4">
+                    <HelperText
+                        type="error"
+                        visible={errors.password ? true : false}
+                    >
+                        {errors.password?.message}
+                    </HelperText>
+                    <View className="flex-row justify-between items-center">
                         <StyledButton
                             className="flex-1"
                             mode="contained"

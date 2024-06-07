@@ -21,7 +21,9 @@ export const AppNavigation = () => {
     };
 
     const linking = {
+        prefixes: [prefix, "https://prepify.thanhf.dev/app"],
         prefixes: [prefix, configs.auth.universalLink],
+
         config,
     };
     return (
