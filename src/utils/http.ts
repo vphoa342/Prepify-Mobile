@@ -5,7 +5,6 @@ import { getValue, removeValue, saveValue } from "./secure-store";
 import configs from "$configs/index";
 
 const baseURL = "http://10.0.2.2:8123";
-
 class Http {
     private accessToken: string | null = null;
     instance: AxiosInstance;
@@ -16,8 +15,10 @@ class Http {
         this.instance = axios.create({
             baseURL: baseURL,
             timeout: 10000,
+
             headers: {
                 "Content-Type": "application/json",
+                "User-Agent": "Prepify/1.0 (Linux; Android 14)",
             },
         });
 
