@@ -1,3 +1,4 @@
+import configs from "$configs/index";
 import { LoginFormType } from "$screens/LoginScreen/LoginScreen";
 import { AuthResponse } from "$types/auth.type";
 import { GoogleUrlResponse, UserResponse } from "$types/user.type";
@@ -22,8 +23,9 @@ export const loginWithGoogle = (code: string | null, signal?: AbortSignal) => {
     return http.post<AuthResponse>("/login/google", { code }, { signal });
 };
 
-export const forgotPassword = (email: string) =>
-    http.post("/forgot-password", { email });
+export const forgotPassword = (email: string) => {
+    return http.post("/forgot-password", { email });
+};
 
 export const resetPassword = (token: string, password: string) =>
     http.post("/reset-password", { token, password });
