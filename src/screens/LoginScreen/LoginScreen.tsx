@@ -10,8 +10,14 @@ import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
-import { Button, TextInput, useTheme } from "react-native-paper";
+import { Linking, Text, View } from "react-native";
+import {
+    Button,
+    HelperText,
+    Surface,
+    TextInput,
+    useTheme,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { RiveRef } from "rive-react-native";
@@ -23,7 +29,6 @@ const loginFormDefaultValues: LoginFormType = {
     phone: "",
     password: "",
 };
-
 const LoginScreen = ({
     navigation,
     route,
@@ -98,7 +103,7 @@ const LoginScreen = ({
                         name="phone"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                className="mb-2"
+                                className=""
                                 dense={true}
                                 placeholder="Số điện thoại"
                                 mode="outlined"
@@ -116,19 +121,20 @@ const LoginScreen = ({
                             />
                         )}
                     />
-                    {errors.phone && (
-                        <Text className="text-red-500">
-                            {errors.phone.message}
-                        </Text>
-                    )}
-                    <Text className="mt-2 text-gray-700">Mật khẩu</Text>
+                    <HelperText
+                        type="error"
+                        visible={errors.phone ? true : false}
+                    >
+                        {errors.phone?.message}
+                    </HelperText>
+                    <Text className=" text-gray-700">Mật khẩu</Text>
                     <Controller
                         control={control}
                         name="password"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 placeholder="Mật khẩu"
-                                className="mb-4"
+                                className=""
                                 mode="outlined"
                                 dense={true}
                                 onBlur={(e) => {
@@ -144,12 +150,13 @@ const LoginScreen = ({
                             />
                         )}
                     />
-                    {errors.password && (
-                        <Text className="text-red-500">
-                            {errors.password.message}
-                        </Text>
-                    )}
-                    <View className="flex-row justify-between items-center mt-4">
+                    <HelperText
+                        type="error"
+                        visible={errors.password ? true : false}
+                    >
+                        {errors.password?.message}
+                    </HelperText>
+                    <View className="flex-row justify-between items-center">
                         <StyledButton
                             className="flex-1"
                             mode="contained"

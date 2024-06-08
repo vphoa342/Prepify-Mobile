@@ -10,7 +10,7 @@ import { isAxiosError } from "axios";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
-import { Text, TextInput } from "react-native-paper";
+import { HelperText, Surface, Text, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { RiveRef } from "rive-react-native";
@@ -133,14 +133,13 @@ const ResetPasswordScreen = ({
                             />
                         )}
                     />
-                    {errors.password && (
-                        <Text className="text-red-500">
-                            {errors.password.message}
-                        </Text>
-                    )}
-                    <Text className="mt-2 text-gray-700">
-                        Nhập lại mật khẩu
-                    </Text>
+                    <HelperText
+                        type="error"
+                        visible={errors.password ? true : false}
+                    >
+                        {errors.password?.message}
+                    </HelperText>
+                    <Text className=" text-gray-700">Nhập lại mật khẩu</Text>
                     <Controller
                         control={control}
                         name="confirmPassword"
@@ -149,7 +148,6 @@ const ResetPasswordScreen = ({
                                 placeholder="Nhập lại mật khẩu"
                                 mode="outlined"
                                 dense={true}
-                                className="mb-4"
                                 onBlur={(e) => {
                                     onBlur();
                                     teddyHandsUp(riveRef, false);
@@ -163,12 +161,13 @@ const ResetPasswordScreen = ({
                             />
                         )}
                     />
-                    {errors.confirmPassword && (
-                        <Text className="text-red-500">
-                            {errors.confirmPassword.message}
-                        </Text>
-                    )}
-                    <View className="flex-row justify-between items-center mt-4">
+                    <HelperText
+                        type="error"
+                        visible={errors.confirmPassword ? true : false}
+                    >
+                        {errors.confirmPassword?.message}
+                    </HelperText>
+                    <View className="flex-row justify-between items-center">
                         <StyledButton
                             className="flex-1"
                             mode="contained"

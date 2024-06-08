@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { HelperText, Surface, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { RiveRef } from "rive-react-native";
@@ -110,7 +110,6 @@ const ForgotPasswordScreen = ({
                         name="email"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                className="mb-1"
                                 mode="outlined"
                                 dense={true}
                                 onBlur={() => {
@@ -126,13 +125,14 @@ const ForgotPasswordScreen = ({
                             />
                         )}
                     />
-                    {errors.email && (
-                        <Text className="text-red-500">
-                            {errors.email.message}
-                        </Text>
-                    )}
+                    <HelperText
+                        type="error"
+                        visible={errors.email ? true : false}
+                    >
+                        {errors.email?.message}
+                    </HelperText>
 
-                    <View className="flex-row justify-between items-center mt-4">
+                    <View className="flex-row justify-between items-center">
                         <StyledButton
                             className="flex-1"
                             mode="contained"
