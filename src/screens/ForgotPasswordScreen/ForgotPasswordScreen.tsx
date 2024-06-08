@@ -1,9 +1,10 @@
+import AuthForm from "$components/common/AuthForm/AuthForm";
 import { forgotPasswordSchema } from "$components/common/AuthForm/AuthForm.schema";
 import StyledButton from "$components/ui/StyledButton";
 import useCountdown from "$hooks/useCountdown";
 import { USER_MESSAGES } from "$utils/constant";
 import isAxiosError from "$utils/isAxiosError";
-import { TeddyConfig, teddyChecking } from "$utils/rive";
+import { teddyChecking } from "$utils/rive";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
@@ -12,7 +13,7 @@ import { Text, View } from "react-native";
 import { HelperText, Surface, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-import Rive, { Alignment, RiveRef } from "rive-react-native";
+import { RiveRef } from "rive-react-native";
 import { forgotPassword } from "src/apis/user.api";
 import { z } from "zod";
 
@@ -23,7 +24,13 @@ const forgotPasswordFormDefaultValues: ForgotPasswordFormType = {
 
 const COUNT_START = 60;
 
-const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
+const ForgotPasswordScreen = ({
+    navigation,
+    route,
+}: {
+    navigation: any;
+    route: any;
+}) => {
     const riveRef = React.useRef<RiveRef>(null);
     const [count, { startCountdown }] = useCountdown({
         countStart: COUNT_START,
@@ -78,35 +85,15 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
         });
     };
 
-    const handleLoginWithGoogle = () => {
-        // Handle login with Google
-    };
-
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <Surface
-                    className="rounded-xl p-6 relative"
-                    style={{ height: 400 }}
-                    elevation={2}
+                <AuthForm
+                    riveRef={riveRef}
+                    title="Quên mật khẩu"
+                    navigation={navigation}
+                    route={route}
                 >
-                    <Rive
-                        resourceName={TeddyConfig.resourceName}
-                        stateMachineName={TeddyConfig.stateMachineName}
-                        style={{
-                            width: 300,
-                            height: 300,
-                            position: "absolute",
-                            top: -200,
-                            left: 25,
-                        }}
-                        autoplay={false}
-                        ref={riveRef}
-                        alignment={Alignment.Center}
-                    />
-                    <Text className="text-2xl font-bold mb-4 mt-20 w-full text-center">
-                        Quên mật khẩu
-                    </Text>
                     <Text className="mb-1 text-slate-500">
                         Nhập email của bạn bên dưới để nhận hướng dẫn đặt lại
                         mật khẩu.
@@ -157,15 +144,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                             Đã có tài khoản?
                         </StyledButton>
                     </View>
-                    <StyledButton
-                        mode="contained"
-                        className="mt-2"
-                        onPress={handleLoginWithGoogle}
-                        icon="google"
-                    >
-                        Tiếp tục với Google
-                    </StyledButton>
-                </Surface>
+                </AuthForm>
             </View>
         </SafeAreaView>
     );

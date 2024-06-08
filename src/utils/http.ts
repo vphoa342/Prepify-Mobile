@@ -40,7 +40,11 @@ class Http {
         this.instance.interceptors.response.use(
             async (response) => {
                 const { url, method } = response.config;
-                if (method === "post" && url === configs.routes.login) {
+                if (
+                    method === "post" &&
+                    (url === configs.routes.login ||
+                        url === configs.routes.loginGoogle)
+                ) {
                     this.accessToken = (
                         response.data as AuthResponse
                     ).data.access_token;
