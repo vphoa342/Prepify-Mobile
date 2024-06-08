@@ -1,8 +1,8 @@
 import BoxIcon from "$components/common/Icon/BoxIcon";
-import AboutScreen from "$screens/AboutScreen";
+import TrustFastIcon from "$components/common/Icon/TrustFast";
 import HomeScreen from "$screens/HomeScreen";
+import StatusScreen from "$screens/StatusScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeIcon, SettingsIcon } from "lucide-react-native";
 import React from "react";
 
 export const MainNavigation = () => {
@@ -19,18 +19,17 @@ export const MainNavigation = () => {
                 options={{
                     tabBarLabel: "Đơn hàng",
                     tabBarIcon: ({ color, size }) => {
-                        // return <HomeIcon size={size} color={color} />;
                         return <BoxIcon size={size} color={color} />;
                     },
                 }}
             />
             <Tab.Screen
-                name="Settings"
-                component={AboutScreen}
+                name="Status"
+                component={StatusScreen}
                 options={{
-                    tabBarLabel: "Settings",
+                    tabBarLabel: "Trạng thái",
                     tabBarIcon: ({ color, size }) => {
-                        return <SettingsIcon size={size} color={color} />;
+                        return <TrustFastIcon size={size} color={color} />;
                     },
                 }}
             />

@@ -1,9 +1,17 @@
 import StyledButton from "$components/ui/StyledButton";
+import StyledChip from "$components/ui/StyledChip";
 import { Order } from "$types/order.type";
 import { convertTimeToString } from "$utils/time";
 import React from "react";
 import { View } from "react-native";
-import { Card, Checkbox, Chip, Text, useTheme } from "react-native-paper";
+import {
+    Card,
+    Checkbox,
+    Chip,
+    Divider,
+    Text,
+    useTheme,
+} from "react-native-paper";
 
 interface OrderCardProps {
     order: Order;
@@ -16,14 +24,15 @@ const OrderCard: React.FC<OrderCardProps> = ({ ...props }) => {
     return (
         <Card
             mode="outlined"
-            className="shadow-xl"
-            style={{ height: 200, width: 350 }}
+            className="shadow-xl mb-4"
+            style={{ minHeight: 200, width: 350 }}
         >
             <Card.Title
                 titleVariant="titleMedium"
                 titleNumberOfLines={1}
                 titleStyle={{
                     height: 20,
+                    padding: 4,
                 }}
                 className="px-2 py-0"
                 subtitleNumberOfLines={0}
@@ -42,7 +51,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ ...props }) => {
             <Card.Content>
                 <View className="flex flex-row justify-between">
                     <View className="flex flex-row justify-between">
-                        <Chip
+                        <StyledChip
                             mode="outlined"
                             compact={true}
                             className="rounded-[50px]"
@@ -77,10 +86,26 @@ const OrderCard: React.FC<OrderCardProps> = ({ ...props }) => {
                     </Text>
                     {order.address}
                 </Text>
+                {order?.note && (
+                    <>
+                        <Divider className="mt-2 mb-2" />
+                        <Text
+                            variant="bodyMedium"
+                            className="flex flex-row mb-2"
+                        >
+                            <Text className="text-[14px] not-italic font-bold leading-6 tracking-[-0.132px]">
+                                Chú ý:{" "}
+                            </Text>
+                            {order?.note}
+                        </Text>
+                    </>
+                )}
             </Card.Content>
             {isActionShown && (
-                <Card.Actions>
-                    <StyledButton className="p-0">Báo cáo</StyledButton>
+                <Card.Actions className="px-4">
+                    <StyledButton className="p-0 min-h-[20px]">
+                        Báo cáo
+                    </StyledButton>
                     <StyledButton>Liên hệ</StyledButton>
                 </Card.Actions>
             )}

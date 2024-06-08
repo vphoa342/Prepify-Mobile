@@ -19,6 +19,7 @@ const PrepifyTheme = {
         ...DefaultTheme.colors,
         primary: "#F97316",
     },
+    roundness: 2,
 };
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({

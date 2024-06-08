@@ -1,10 +1,8 @@
 import React from "react";
 import { G, Path, Svg } from "react-native-svg";
+import { IconProps } from "./BaseIcon";
 
-interface BoxIconProps {
-    color?: string;
-    size?: number;
-}
+interface BoxIconProps extends IconProps {}
 const BoxIcon: React.FC<BoxIconProps> = ({ ...props }) => {
     const { color, size } = props;
     return (
