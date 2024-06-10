@@ -1,7 +1,7 @@
 import { Order } from "$types/order.type";
 import React from "react";
 import { View } from "react-native";
-import { Button, Text, useTheme } from "react-native-paper";
+import { Badge, Button, Text, useTheme } from "react-native-paper";
 import OrderCard from "../OrderCard";
 
 interface OrderListViewProps {
@@ -22,20 +22,28 @@ const OrderListView: React.FC<OrderListViewProps> = ({ ...props }) => {
                     <Text className="text-xl not-italic font-extrabold leading-6 tracking-[-0.24px] ">
                         {title}
                     </Text>
-                    <Text
-                        className="ml-2 rounded-[50px] p-1"
-                        style={{ backgroundColor: theme.colors.primary }}
+                    <Badge
+                        className="ml-1"
+                        theme={{ colors: { primary: theme.colors.primary } }}
                     >
                         {orders.length}
-                    </Text>
+                    </Badge>
                 </View>
                 {isStartDelivery && (
                     <Button
-                        mode="elevated"
-                        className="min-h-[14px]"
-                        style={{ alignSelf: "flex-start" }}
-                        contentStyle={{ height: 40, width: 150, padding: 0 }}
-                        labelStyle={{ fontSize: 10 }}
+                        mode="contained-tonal"
+                        contentStyle={{
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            height: 30,
+                            width: 140,
+                            display: "flex",
+                            justifyContent: "center",
+                        }}
+                        labelStyle={{
+                            fontSize: 10,
+                            lineHeight: 10,
+                        }}
                     >
                         Bắt đầu giao hàng
                     </Button>
@@ -44,6 +52,7 @@ const OrderListView: React.FC<OrderListViewProps> = ({ ...props }) => {
             <View className="flex flex-col justify-between mt-2">
                 {orders.map((order) => (
                     <OrderCard
+                        key={order.id}
                         order={order}
                         isActionShown={isActionShown ?? false}
                     />

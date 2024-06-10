@@ -10,7 +10,15 @@ interface MyCustomChipProps extends ChipProps {
 
 const StyledChip: React.FC<MyCustomChipProps> = ({ children, ...props }) => {
     return (
-        <CustomChip {...props} className="rounded-sm p-0">
+        <CustomChip
+            {...props}
+            mode="flat"
+            className="rounded-sm p-0"
+            textStyle={{
+                marginVertical: 0,
+                fontSize: 10,
+            }}
+        >
             {children}
         </CustomChip>
     );

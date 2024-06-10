@@ -16,22 +16,22 @@ export const MainNavigation = () => {
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{
+                options={() => ({
                     tabBarLabel: "Đơn hàng",
                     tabBarIcon: ({ color, size }) => {
                         return <BoxIcon size={size} color={color} />;
                     },
-                }}
+                })}
             />
             <Tab.Screen
                 name="Status"
                 component={StatusScreen}
-                options={{
+                options={() => ({
                     tabBarLabel: "Trạng thái",
                     tabBarIcon: ({ color, size }) => {
                         return <TrustFastIcon size={size} color={color} />;
                     },
-                }}
+                })}
             />
         </Tab.Navigator>
     );
