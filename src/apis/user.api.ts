@@ -1,4 +1,3 @@
-import configs from "$configs/index";
 import { LoginFormType } from "$screens/LoginScreen/LoginScreen";
 import { AuthResponse } from "$types/auth.type";
 import { GoogleUrlResponse, UserResponse } from "$types/user.type";

@@ -2,23 +2,21 @@ import { resetPassword } from "$apis/user.api";
 import AuthForm from "$components/common/AuthForm/AuthForm";
 import { resetPasswordSchema } from "$components/common/AuthForm/AuthForm.schema";
 import StyledButton from "$components/ui/StyledButton";
+import { AppScreens, AuthScreenProps } from "$configs/routes";
 import { USER_MESSAGES } from "$utils/constant";
 import { teddyHandsUp } from "$utils/rive";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import React from "react";
+import React, { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
-import { HelperText, Surface, Text, TextInput } from "react-native-paper";
+import { HelperText, Text, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { RiveRef } from "rive-react-native";
 import { z } from "zod";
-
-export interface ResetPasswordProps {
-    token?: string | null;
-}
 
 export type ResetPasswordFormType = z.infer<typeof resetPasswordSchema>;
 
@@ -26,14 +24,17 @@ const resetPasswordFormDefaultValues: ResetPasswordFormType = {
     password: "",
     confirmPassword: "",
 };
-const ResetPasswordScreen = ({
-    navigation,
-    route,
-}: {
-    navigation: any;
-    route: any;
-}) => {
+
+type ResetPasswordScreenNavigationType =
+    AuthScreenProps<AppScreens.ResetPasswordScreen>["navigation"];
+type ResetPasswordScreenRouteType =
+    AuthScreenProps<AppScreens.ResetPasswordScreen>["route"];
+
+const ResetPasswordScreen = () => {
     const riveRef = React.useRef<RiveRef>(null);
+    const route = useRoute<ResetPasswordScreenRouteType>();
+    const navigation = useNavigation<ResetPasswordScreenNavigationType>();
+    const token = useMemo(() => route.params?.token, [route]);
     const {
         control,
         handleSubmit,
@@ -44,10 +45,6 @@ const ResetPasswordScreen = ({
         resolver: zodResolver(resetPasswordSchema),
         defaultValues: resetPasswordFormDefaultValues,
     });
-
-    const { token } = route.params;
-
-    // Mutation reset password
     const { mutate: resetPasswordMutate, isPending: isResetPasswordPending } =
         useMutation({
             mutationFn: ({
@@ -91,18 +88,13 @@ const ResetPasswordScreen = ({
     };
 
     const handleLogin = () => {
-        navigation.navigate("Login");
+        navigation.navigate(AppScreens.LoginScreen);
     };
 
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <AuthForm
-                    title="Đặt lại mật khẩu"
-                    navigation={navigation}
-                    route={route}
-                    riveRef={riveRef}
-                >
+                <AuthForm title="Đặt lại mật khẩu" riveRef={riveRef}>
                     <Text className="text-2xl font-bold mb-4 mt-20 w-full text-center">
                         Đặt lại mật khẩu
                     </Text>

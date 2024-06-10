@@ -1,23 +1,19 @@
 import AuthForm from "$components/common/AuthForm/AuthForm";
 import { loginSchema } from "$components/common/AuthForm/AuthForm.schema";
 import StyledButton from "$components/ui/StyledButton";
+import { AppScreens, AuthScreenProps } from "$configs/routes";
 import { signIn } from "$contexts/auth/auth.reducer";
 import useAuth from "$hooks/useAuth";
 import { AUTH_MESSAGES } from "$utils/constant";
 import { teddyChecking, teddyHandsUp } from "$utils/rive";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Linking, Text, View } from "react-native";
-import {
-    Button,
-    HelperText,
-    Surface,
-    TextInput,
-    useTheme,
-} from "react-native-paper";
+import { Text, View } from "react-native";
+import { Button, HelperText, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { RiveRef } from "rive-react-native";
@@ -29,16 +25,14 @@ const loginFormDefaultValues: LoginFormType = {
     phone: "",
     password: "",
 };
-const LoginScreen = ({
-    navigation,
-    route,
-}: {
-    navigation: any;
-    route: any;
-}) => {
+
+type LoginScreenNavigationType =
+    AuthScreenProps<AppScreens.LoginScreen>["navigation"];
+
+const LoginScreen = () => {
     const { dispatch } = useAuth();
     const riveRef = React.useRef<RiveRef>(null);
-
+    const navigation = useNavigation<LoginScreenNavigationType>();
     const {
         control,
         handleSubmit,
@@ -49,7 +43,6 @@ const LoginScreen = ({
         resolver: zodResolver(loginSchema),
         defaultValues: loginFormDefaultValues,
     });
-
     const { mutate: loginMutate, isPending: isLoginPending } = useMutation({
         mutationFn: (body: LoginFormType) => login(body),
     });
@@ -85,18 +78,13 @@ const LoginScreen = ({
         });
     };
     const handleForgotPassword = () => {
-        navigation.navigate("ForgotPassword");
+        navigation.navigate(AppScreens.ForgotPasswordScreen);
     };
 
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <AuthForm
-                    title="Welcome back"
-                    navigation={navigation}
-                    route={route}
-                    riveRef={riveRef}
-                >
+                <AuthForm title="Welcome back" riveRef={riveRef}>
                     <Text className="text-gray-700">Tài khoản</Text>
                     <Controller
                         control={control}

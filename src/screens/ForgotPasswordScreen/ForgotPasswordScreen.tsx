@@ -1,16 +1,18 @@
 import AuthForm from "$components/common/AuthForm/AuthForm";
 import { forgotPasswordSchema } from "$components/common/AuthForm/AuthForm.schema";
 import StyledButton from "$components/ui/StyledButton";
+import { AppScreens, AuthScreenProps } from "$configs/routes";
 import useCountdown from "$hooks/useCountdown";
 import { USER_MESSAGES } from "$utils/constant";
 import isAxiosError from "$utils/isAxiosError";
 import { teddyChecking } from "$utils/rive";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
-import { HelperText, Surface, TextInput } from "react-native-paper";
+import { HelperText, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { RiveRef } from "rive-react-native";
@@ -24,17 +26,15 @@ const forgotPasswordFormDefaultValues: ForgotPasswordFormType = {
 
 const COUNT_START = 60;
 
-const ForgotPasswordScreen = ({
-    navigation,
-    route,
-}: {
-    navigation: any;
-    route: any;
-}) => {
+type ForgotPasswordScreenNavigationType =
+    AuthScreenProps<AppScreens.ForgotPasswordScreen>["navigation"];
+
+const ForgotPasswordScreen = () => {
     const riveRef = React.useRef<RiveRef>(null);
     const [count, { startCountdown }] = useCountdown({
         countStart: COUNT_START,
     });
+    const navigation = useNavigation<ForgotPasswordScreenNavigationType>();
     const {
         control,
         handleSubmit,
@@ -45,8 +45,6 @@ const ForgotPasswordScreen = ({
         resolver: zodResolver(forgotPasswordSchema),
         defaultValues: forgotPasswordFormDefaultValues,
     });
-
-    // Forgot password with system account
     const { mutate: forgotPasswordMutate, isPending: isForgotPasswordPending } =
         useMutation({
             mutationFn: (body: ForgotPasswordFormType) =>
@@ -54,7 +52,7 @@ const ForgotPasswordScreen = ({
         });
 
     const handleLogin = () => {
-        navigation.navigate("Login");
+        navigation.navigate(AppScreens.LoginScreen);
     };
 
     const handleForgotPassword = (data: ForgotPasswordFormType) => {
@@ -88,12 +86,7 @@ const ForgotPasswordScreen = ({
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <AuthForm
-                    riveRef={riveRef}
-                    title="Quên mật khẩu"
-                    navigation={navigation}
-                    route={route}
-                >
+                <AuthForm riveRef={riveRef} title="Quên mật khẩu">
                     <Text className="mb-1 text-slate-500">
                         Nhập email của bạn bên dưới để nhận hướng dẫn đặt lại
                         mật khẩu.
