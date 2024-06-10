@@ -1,12 +1,12 @@
+import configs from "$configs/index";
+import CombinedPrepifyTheme from "$configs/theme";
 import { NavigationContainer } from "@react-navigation/native";
+import * as Linking from "expo-linking";
 import React, { useContext } from "react";
+import { PaperProvider, Text } from "react-native-paper";
 import { AuthContext } from "src/contexts/auth/AuthContext";
 import { AuthNavigation } from "./AuthNavigation";
 import { MainNavigation } from "./MainNavigation";
-import * as Linking from "expo-linking";
-import { PaperProvider, Text } from "react-native-paper";
-import CombinedPrepifyTheme from "$configs/theme";
-import configs from "$configs/index";
 
 const prefix = Linking.createURL("/");
 
@@ -21,9 +21,7 @@ export const AppNavigation = () => {
     };
 
     const linking = {
-        prefixes: [prefix, "https://prepify.thanhf.dev/app"],
         prefixes: [prefix, configs.auth.universalLink],
-
         config,
     };
     return (

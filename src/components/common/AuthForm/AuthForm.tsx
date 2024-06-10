@@ -1,4 +1,9 @@
 import StyledButton from "$components/ui/StyledButton";
+import {
+    AppScreens,
+    AuthNavigationParamList,
+    AuthScreenProps,
+} from "$configs/routes";
 import { signIn } from "$contexts/auth/auth.reducer";
 import useAuth from "$hooks/useAuth";
 import { SYSTEM_MESSAGES } from "$utils/constant";
@@ -16,28 +21,26 @@ import {
     getMeQueryKey,
     loginWithGoogle,
 } from "src/apis/user.api";
+import { useRoute } from "@react-navigation/native";
 
 const STALE_TIME_GOOGLE_AUTH_URL = 1000 * 60 * 60; // 1 hour
 
 interface AuthFormProps {
-    navigation: any;
-    route?: any;
     children: React.ReactNode;
     riveRef: React.RefObject<RiveRef>;
     title: string;
 }
 
-const AuthForm = ({
-    navigation,
-    route,
-    title,
-    children,
-    riveRef,
-}: AuthFormProps) => {
-    const params = route.params;
-    const code = useMemo(() => params?.code, [params]);
+type AuthFormRouteType = AuthScreenProps<
+    | AppScreens.LoginScreen
+    | AppScreens.ForgotPasswordScreen
+    | AppScreens.ResetPasswordScreen
+>["route"];
+
+const AuthForm = ({ title, children, riveRef }: AuthFormProps) => {
     const { dispatch } = useAuth();
     const theme = useTheme();
+    const route = useRoute<AuthFormRouteType>();
     // -----------------------------LOGIN WITH GOOGLE---------------------------------
     const { data: googleUrl } = useQuery({
         queryKey: [getGoogleUrlQueryKey],
@@ -45,6 +48,8 @@ const AuthForm = ({
         staleTime: STALE_TIME_GOOGLE_AUTH_URL,
         refetchOnWindowFocus: false,
     });
+
+    const code = useMemo(() => route.params?.code, [route]);
 
     const url = useMemo(
         () => (googleUrl && googleUrl.data.data.url) || "",
@@ -114,7 +119,7 @@ const AuthForm = ({
     return (
         <Surface
             className="rounded-xl p-6 relative"
-            style={{ height: 500 }}
+            style={{ minHeight: 400 }}
             elevation={2}
         >
             <Rive

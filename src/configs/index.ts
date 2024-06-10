@@ -1,5 +1,5 @@
 import auth from "./auth";
-import routes from "./routes";
+import { routes } from "./routes";
 
 const configs = {
     routes,
