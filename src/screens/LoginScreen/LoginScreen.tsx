@@ -1,32 +1,23 @@
+import AuthForm from "$components/common/AuthForm/AuthForm";
 import { loginSchema } from "$components/common/AuthForm/AuthForm.schema";
 import StyledButton from "$components/ui/StyledButton";
+import { AppScreens, AuthScreenProps } from "$configs/routes";
 import { signIn } from "$contexts/auth/auth.reducer";
+import useAuth from "$hooks/useAuth";
 import { AUTH_MESSAGES } from "$utils/constant";
-import { TeddyConfig, teddyChecking, teddyHandsUp } from "$utils/rive";
+import { teddyChecking, teddyHandsUp } from "$utils/rive";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import React, { useContext, useMemo } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Linking, Text, View } from "react-native";
-import {
-    Button,
-    HelperText,
-    Surface,
-    TextInput,
-    useTheme,
-} from "react-native-paper";
+import { Text, View } from "react-native";
+import { Button, HelperText, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-import Rive, { Alignment, RiveRef } from "rive-react-native";
-import {
-    getGoogleAuthUrl,
-    getGoogleUrlQueryKey,
-    getMe,
-    login,
-    loginWithGoogle,
-} from "src/apis/user.api";
-import { AuthContext } from "src/contexts/auth/AuthContext";
+import { RiveRef } from "rive-react-native";
+import { getMe, login } from "src/apis/user.api";
 import { z } from "zod";
 
 export type LoginFormType = z.infer<typeof loginSchema>;
@@ -35,50 +26,13 @@ const loginFormDefaultValues: LoginFormType = {
     password: "",
 };
 
-const STALE_TIME_GOOGLE_AUTH_URL = 1000 * 60 * 60; // 1 hour
+type LoginScreenNavigationType =
+    AuthScreenProps<AppScreens.LoginScreen>["navigation"];
 
-const LoginScreen = ({
-    navigation,
-    route,
-}: {
-    navigation: any;
-    route: any;
-}) => {
-    const code = route.params?.code;
-    console.log(code);
+const LoginScreen = () => {
+    const { dispatch } = useAuth();
     const riveRef = React.useRef<RiveRef>(null);
-    const theme = useTheme();
-    // -----------------------------LOGIN WITH GOOGLE---------------------------------
-    const { data: googleUrl } = useQuery({
-        queryKey: [getGoogleUrlQueryKey],
-        queryFn: () => getGoogleAuthUrl(),
-        staleTime: STALE_TIME_GOOGLE_AUTH_URL,
-        refetchOnWindowFocus: false,
-    });
-
-    const url = useMemo(
-        () => (googleUrl && googleUrl.data.data.url) || "",
-        [googleUrl]
-    );
-
-    // Mutation for login with google
-    const { mutate: googleMutate } = useMutation({
-        mutationFn: ({
-            code,
-            signal,
-        }: {
-            code: string;
-            signal?: AbortSignal;
-        }) => loginWithGoogle(code, signal),
-    });
-
-    // // Query for get user info
-    // const { refetch: userRefetch } = useQuery({
-    //     queryKey: [getMeQueryKey],
-    //     queryFn: () => getMe(),
-    //     enabled: false,
-    // });
-
+    const navigation = useNavigation<LoginScreenNavigationType>();
     const {
         control,
         handleSubmit,
@@ -89,8 +43,6 @@ const LoginScreen = ({
         resolver: zodResolver(loginSchema),
         defaultValues: loginFormDefaultValues,
     });
-
-    const { dispatch } = useContext(AuthContext);
     const { mutate: loginMutate, isPending: isLoginPending } = useMutation({
         mutationFn: (body: LoginFormType) => login(body),
     });
@@ -126,50 +78,13 @@ const LoginScreen = ({
         });
     };
     const handleForgotPassword = () => {
-        // Handle forgot password
-        navigation.navigate("ForgotPassword");
-    };
-
-    const handleLoginWithGoogle = async () => {
-        // Handle login with Google
-        const supported = await Linking.canOpenURL(url);
-
-        if (supported) {
-            await Linking.openURL(url);
-        } else {
-            Toast.show({
-                type: "error",
-                text1: "Error",
-                text2: `Don't know how to open this URL: ${url}`,
-            });
-        }
+        navigation.navigate(AppScreens.ForgotPasswordScreen);
     };
 
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 justify-center p-4">
-                <Surface
-                    className="rounded-xl p-6 relative"
-                    style={{ height: 500 }}
-                    elevation={2}
-                >
-                    <Rive
-                        resourceName={TeddyConfig.resourceName}
-                        stateMachineName={TeddyConfig.stateMachineName}
-                        style={{
-                            width: 300,
-                            height: 300,
-                            position: "absolute",
-                            top: -200,
-                            left: 25,
-                        }}
-                        autoplay={false}
-                        ref={riveRef}
-                        alignment={Alignment.Center}
-                    />
-                    <Text className="text-2xl font-bold mb-4 w-full text-center mt-20">
-                        Welcome back
-                    </Text>
+                <AuthForm title="Welcome back" riveRef={riveRef}>
                     <Text className="text-gray-700">Tài khoản</Text>
                     <Controller
                         control={control}
@@ -241,16 +156,7 @@ const LoginScreen = ({
                             Quên mật khẩu?
                         </Button>
                     </View>
-                    <StyledButton
-                        style={{ backgroundColor: theme.colors.primary }}
-                        className="mt-4"
-                        mode="contained"
-                        onPress={handleLoginWithGoogle}
-                        icon="google"
-                    >
-                        Tiếp tục với Google
-                    </StyledButton>
-                </Surface>
+                </AuthForm>
             </View>
         </SafeAreaView>
     );
