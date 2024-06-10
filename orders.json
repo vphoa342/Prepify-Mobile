@@ -1,0 +1,57 @@
+[
+    {
+        "id": "1234568",
+        "phone": "0943617015",
+        "status": "DELIVERING",
+        "datetime": "2022-01-01T00:00:00Z",
+        "address": "S10.05 Vinhomes Grand Park, Phường Long Thạnh Mỹ, TP Thủ Đức, TP HCM",
+        "totalPrice": 100000,
+        "area": {
+            "id": "1",
+            "name": "Quận 9",
+            "price": 10000
+        },
+        "customer": {
+            "id": "1",
+            "user": {
+                "id": "1",
+                "email": "vphoa34@gmail.com",
+                "fullname": "Ngoc Han",
+                "role": "CUSTOMER",
+                "avatar": null,
+                "area": null,
+                "address": null,
+                "dateOfBirth": null,
+                "phone": null
+            }
+        },
+        "note": "Giao hàng nhanh"
+    },
+    {
+        "id": "1234578",
+        "phone": "0943617015",
+        "status": "DELAYED",
+        "datetime": "2022-01-01T00:00:00Z",
+        "address": "S10.05 Vinhomes Grand Park, Phường Long Thạnh Mỹ, TP Thủ Đức, TP HCM",
+        "totalPrice": 100000,
+        "area": {
+            "id": "1",
+            "name": "Quận 9",
+            "price": 10000
+        },
+        "customer": {
+            "id": "1",
+            "user": {
+                "id": "1",
+                "email": "vphoa34@gmail.com",
+                "fullname": "Ngoc Han",
+                "role": "CUSTOMER",
+                "avatar": null,
+                "area": null,
+                "address": null,
+                "dateOfBirth": null,
+                "phone": null
+            }
+        }
+    }
+]

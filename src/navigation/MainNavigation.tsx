@@ -1,4 +1,5 @@
 import BoxIcon from "$components/common/Icon/BoxIcon";
+import TrustFastIcon from "$components/common/Icon/TrustFast";
 import {
     AppBottomTabNavigationParamList,
     AppScreens,
@@ -6,6 +7,7 @@ import {
 } from "$configs/routes";
 import AboutScreen from "$screens/AboutScreen";
 import HomeScreen from "$screens/HomeScreen";
+import StatusScreen from "$screens/StatusScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { HomeIcon, SettingsIcon } from "lucide-react-native";
@@ -56,12 +58,22 @@ export const AppBottomTabNavigation = () => {
             <Tab.Screen
                 name={AppScreens.HomeScreen}
                 component={HomeScreen}
-                options={{
+                options={() => ({
                     tabBarLabel: "Đơn hàng",
                     tabBarIcon: ({ color, size }) => {
                         return <BoxIcon size={size} color={color} />;
                     },
-                }}
+                })}
+            />
+            <Tab.Screen
+                name={AppScreens.StatusScreen}
+                component={StatusScreen}
+                options={() => ({
+                    tabBarLabel: "Trạng thái",
+                    tabBarIcon: ({ color, size }) => {
+                        return <TrustFastIcon size={size} color={color} />;
+                    },
+                })}
             />
         </Tab.Navigator>
     );

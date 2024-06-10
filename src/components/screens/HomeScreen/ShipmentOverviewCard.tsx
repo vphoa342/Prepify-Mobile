@@ -37,9 +37,9 @@ const ShipmentOverviewCard = () => {
                 style={{ backgroundColor: theme.colors.primaryContainer }}
             >
                 <ShipmentOverviewDedail title="Đang giao" value="03" />
+                <ShipmentOverviewDedail title="Hoàn thành" value="20" />
                 <ShipmentOverviewDedail title="Bị hoãn" value="01" />
                 <ShipmentOverviewDedail title="Đã hủy" value="02" />
-                <ShipmentOverviewDedail title="Hoàn thành" value="20" />
             </View>
             <View className="flex flex-row justify-end mt-2">
                 <Text style={{ color: theme.colors.primary }}>
