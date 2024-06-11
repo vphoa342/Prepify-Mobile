@@ -5,12 +5,12 @@ import {
     AppScreens,
     MainNavigationParamList,
 } from "$configs/routes";
-import AboutScreen from "$screens/AboutScreen";
 import HomeScreen from "$screens/HomeScreen";
+import ProfileScreen from "$screens/ProfileScreen";
 import StatusScreen from "$screens/StatusScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { HomeIcon, SettingsIcon } from "lucide-react-native";
+import { HomeIcon, UserIcon } from "lucide-react-native";
 import React from "react";
 
 export const MainNavigation = () => {
@@ -20,10 +20,11 @@ export const MainNavigation = () => {
             screenOptions={{
                 drawerPosition: "right",
             }}
+            initialRouteName={AppScreens.AppBottomTabScreen}
         >
             <Drawer.Screen
                 name={AppScreens.AppBottomTabScreen}
-                component={MainNavigation}
+                component={AppBottomTabNavigation}
                 options={{
                     title: "Trang chủ",
                     headerShown: false,
@@ -34,13 +35,12 @@ export const MainNavigation = () => {
             />
             <Drawer.Screen
                 name={AppScreens.ProfileScreen}
-                component={AboutScreen}
+                component={ProfileScreen}
                 options={{
                     title: "Hồ sơ cá nhân",
                     drawerIcon: ({ color, size }) => {
-                        return <SettingsIcon size={size} color={color} />;
+                        return <UserIcon size={size} color={color} />;
                     },
-                    headerShown: false,
                 }}
             />
         </Drawer.Navigator>
@@ -54,6 +54,7 @@ export const AppBottomTabNavigation = () => {
             screenOptions={{
                 headerShown: false,
             }}
+            initialRouteName={AppScreens.HomeScreen}
         >
             <Tab.Screen
                 name={AppScreens.HomeScreen}

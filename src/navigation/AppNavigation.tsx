@@ -1,9 +1,10 @@
+import Loading from "$components/common/Loading";
 import configs from "$configs/index";
 import CombinedPrepifyTheme from "$configs/theme";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 import React, { useContext } from "react";
-import { PaperProvider, Text } from "react-native-paper";
+import { PaperProvider } from "react-native-paper";
 import { AuthContext } from "src/contexts/auth/AuthContext";
 import { AuthNavigation } from "./AuthNavigation";
 import { MainNavigation } from "./MainNavigation";
@@ -28,7 +29,7 @@ export const AppNavigation = () => {
         <PaperProvider theme={CombinedPrepifyTheme}>
             <NavigationContainer
                 linking={linking}
-                fallback={<Text>Loading...</Text>}
+                fallback={<Loading />}
                 theme={CombinedPrepifyTheme}
             >
                 {!isAuthenticated ? <AuthNavigation /> : <MainNavigation />}
