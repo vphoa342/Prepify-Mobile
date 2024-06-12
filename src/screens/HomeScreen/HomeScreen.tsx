@@ -1,5 +1,5 @@
-import ShipmentOverviewCard from "$components/screens/HomeScreen/ShipmentOverviewCard";
-import WelcomeCard from "$components/screens/HomeScreen/WelcomeCard";
+import ShipmentOverviewCard from "./components/ShipmentOverviewCard";
+import WelcomeCard from "./components/WelcomeCard";
 import {
     AppBottomTabScreenProps,
     AppScreens,
@@ -14,7 +14,7 @@ import React from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import orders from "../../../orders.json";
-import OrderListView from "$components/common/OrderListView";
+import OrderListView from "./components/OrderListView";
 
 type HomeScreenNavigationType = CompositeScreenProps<
     MainScreenProps<AppScreens.AppBottomTabScreen>,

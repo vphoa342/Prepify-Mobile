@@ -2,11 +2,18 @@ import { Area } from "./area.type";
 import { Customer } from "./customer.type";
 
 export enum OrderStatus {
-    DELAYED = "DELAYED",
     DELIVERING = "DELIVERING",
     DELIVERED = "DELIVERED",
-    CANCELLED = "CANCELLED",
+    DELAYED = "DELAYED",
+    CANCELED = "CANCELED",
 }
+
+export const TitleMapping = {
+    [OrderStatus.DELIVERING]: "Đang giao",
+    [OrderStatus.DELIVERED]: "Hoàn thành",
+    [OrderStatus.DELAYED]: "Bị hoãn",
+    [OrderStatus.CANCELED]: "Đã hủy",
+};
 
 export interface Order {
     id: string;

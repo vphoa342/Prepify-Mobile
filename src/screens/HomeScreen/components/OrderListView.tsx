@@ -2,7 +2,7 @@ import { Order } from "$types/order.type";
 import React from "react";
 import { View } from "react-native";
 import { Badge, Button, Text, useTheme } from "react-native-paper";
-import OrderCard from "../OrderCard";
+import OrderCard from "./OrderCard";
 
 interface OrderListViewProps {
     orders: Order[];

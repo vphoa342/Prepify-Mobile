@@ -1,5 +1,3 @@
-import BoxIcon from "$components/common/Icon/BoxIcon";
-import TrustFastIcon from "$components/common/Icon/TrustFast";
 import {
     AppBottomTabNavigationParamList,
     AppScreens,
@@ -12,6 +10,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { HomeIcon, UserIcon } from "lucide-react-native";
 import React from "react";
+import { Icon } from "react-native-paper";
 
 export const MainNavigation = () => {
     const Drawer = createDrawerNavigator<MainNavigationParamList>();
@@ -62,7 +61,13 @@ export const AppBottomTabNavigation = () => {
                 options={() => ({
                     tabBarLabel: "Đơn hàng",
                     tabBarIcon: ({ color, size }) => {
-                        return <BoxIcon size={size} color={color} />;
+                        return (
+                            <Icon
+                                source="package-variant-closed"
+                                color={color}
+                                size={size}
+                            />
+                        );
                     },
                 })}
             />
@@ -72,7 +77,13 @@ export const AppBottomTabNavigation = () => {
                 options={() => ({
                     tabBarLabel: "Trạng thái",
                     tabBarIcon: ({ color, size }) => {
-                        return <TrustFastIcon size={size} color={color} />;
+                        return (
+                            <Icon
+                                source="truck-fast"
+                                color={color}
+                                size={size}
+                            />
+                        );
                     },
                 })}
             />
