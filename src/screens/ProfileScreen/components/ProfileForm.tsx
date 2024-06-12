@@ -1,4 +1,4 @@
-import { ProfileFormSchema } from "$components/screens/ProfileScreen/ProfileForm.schema";
+import { ProfileFormSchema } from "$screens/ProfileScreen/components/ProfileForm.schema";
 import StyledButton from "$components/ui/StyledButton";
 import StyledTextInput from "$components/ui/StyledTextInput";
 import { zodResolver } from "@hookform/resolvers/zod";

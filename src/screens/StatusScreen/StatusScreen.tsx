@@ -1,44 +1,51 @@
-import OrderListView from "$components/common/OrderListView";
-import StautsSegmentedButtons from "$components/screens/StatusScreen/StatusSegmentedButtons";
-import { Order, OrderStatus } from "$types/order.type";
+import { Order } from "$types/order.type";
 import React, { useEffect } from "react";
 import { ScrollView } from "react-native";
+import { PaperProvider, Portal } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ordersData from "../../../orders.json";
+import DelayedDialog from "./components/DelayedDialog";
+import OrderListView from "./components/OrderListView";
+import ReportDialog from "./components/ReportDialog";
+import StautsSegmentedButtons from "./components/StatusSegmentedButtons";
+import {
+    StatusScreenContext,
+    StatusScreenProvider,
+} from "./context/StatusScreenContext";
+import DeliveredDialog from "./components/DeliveredDialog";
+import CanceledDialog from "./components/CanceledDialog";
 
-const titleMapping = {
-    [OrderStatus.DELIVERING]: "Đang giao",
-    [OrderStatus.DELIVERED]: "Hoàn thành",
-    [OrderStatus.DELAYED]: "Bị hoãn",
-    [OrderStatus.CANCELLED]: "Đã hủy",
-};
-
-const StatusScreen = () => {
-    const [orderStatus, setOrderStatus] = React.useState<OrderStatus>(
-        OrderStatus.DELIVERING
-    );
-    const [title, setTitle] = React.useState("");
+const WrappedStatusScreen = () => {
+    const { orderStatus } = React.useContext(StatusScreenContext);
     const [orders, setOrders] = React.useState<Order[]>(ordersData);
 
     useEffect(() => {
-        setTitle(titleMapping[orderStatus]);
         setOrders(ordersData);
     }, [orderStatus]);
 
     return (
         <SafeAreaView className="flex-1 justify-center px-4 py-4">
             <ScrollView>
-                <StautsSegmentedButtons
-                    orderStatus={orderStatus}
-                    onOrderStatus={setOrderStatus}
-                />
-                <OrderListView
-                    orders={orders}
-                    title={title}
-                    isActionShown={true}
-                />
+                <StautsSegmentedButtons />
+                <OrderListView orders={orders} />
+                <Portal>
+                    <ReportDialog />
+                    <DeliveredDialog />
+                    <DelayedDialog />
+                    <CanceledDialog />
+                </Portal>
             </ScrollView>
         </SafeAreaView>
+    );
+};
+
+const StatusScreen = () => {
+    return (
+        <StatusScreenProvider>
+            <PaperProvider>
+                <WrappedStatusScreen />
+            </PaperProvider>
+        </StatusScreenProvider>
     );
 };
 

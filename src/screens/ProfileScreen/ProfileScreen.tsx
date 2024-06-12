@@ -1,5 +1,5 @@
-import ProfileAvatar from "$components/screens/ProfileScreen/ProfileAvatar";
-import ProfileForm from "$components/screens/ProfileScreen/ProfileForm";
+import ProfileAvatar from "./components/ProfileAvatar";
+import ProfileForm from "./components/ProfileForm";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
