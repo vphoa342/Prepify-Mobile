@@ -1,9 +1,9 @@
-import { Order, OrderStatus, TitleMapping } from "$types/order.type";
+import { Order, TitleMapping } from "$types/order.type";
 import React from "react";
 import { View } from "react-native";
-import { Badge, Button, Text, useTheme } from "react-native-paper";
-import OrderCard from "./OrderCard";
+import { Badge, Text, useTheme } from "react-native-paper";
 import { StatusScreenContext } from "../context/StatusScreenContext";
+import OrderCard from "./OrderCard";
 
 interface OrderListViewProps {
     orders: Order[];

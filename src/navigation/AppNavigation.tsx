@@ -8,7 +8,6 @@ import { PaperProvider } from "react-native-paper";
 import { AuthContext } from "src/contexts/auth/AuthContext";
 import { AuthNavigation } from "./AuthNavigation";
 import { MainNavigation } from "./MainNavigation";
-
 const prefix = Linking.createURL("/");
 
 export const AppNavigation = () => {

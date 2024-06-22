@@ -4,7 +4,9 @@ import { ACCESS_TOKEN_KEY, HTTP_STATUS } from "./constant";
 import { getValue, removeValue, saveValue } from "./secure-store";
 import configs from "$configs/index";
 
-const baseURL = "http://10.0.2.2:8123";
+// const baseURL = configs.EnvConfig.API_URL;
+const baseURL = 'http://localhost:8123';
+console.log("API URL", baseURL);
 class Http {
     private accessToken: string | null = null;
     instance: AxiosInstance;

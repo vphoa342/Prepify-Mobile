@@ -22,6 +22,7 @@ export enum AppScreens {
     ProfileScreen = "Profile",
     AppBottomTabScreen = "AppBottomTab",
     StatusScreen = "Status",
+    MapScreen = "Map",
 }
 
 export type AuthNavigationParamList = {
@@ -35,6 +36,7 @@ export type AuthNavigationParamList = {
 export type AppBottomTabNavigationParamList = {
     [AppScreens.HomeScreen]: undefined;
     [AppScreens.StatusScreen]: undefined;
+    [AppScreens.MapScreen]: undefined;
 };
 
 export type MainNavigationParamList = {

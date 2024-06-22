@@ -1,13 +1,11 @@
-import { getValue } from "$utils/secure-store";
-import { getMe, getMeQueryKey } from "src/apis/user.api";
 import { useEffect, useRef } from "react";
+import { getMe, getMeQueryKey } from "src/apis/user.api";
 
 import { useQuery } from "@tanstack/react-query";
 
 import { signIn } from "$contexts/auth/auth.reducer";
 
 import useAuth from "./useAuth";
-import { ACCESS_TOKEN_KEY } from "$utils/constant";
 
 const WAIT_TEDDY_TIME = 2000;
 
