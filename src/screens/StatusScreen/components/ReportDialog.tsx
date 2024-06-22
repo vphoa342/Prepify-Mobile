@@ -74,6 +74,7 @@ const ReportDialog = () => {
                         showDelayedDialog();
                         hideDialog();
                     }}
+                    className="mt-2"
                 >
                     <View className="flex flex-row mt-2 justify-between">
                         <View className="flex flex-row">
@@ -91,6 +92,7 @@ const ReportDialog = () => {
                         showCanceledDialog();
                         hideDialog();
                     }}
+                    className="mt-2"
                 >
                     <View className="flex flex-row mt-2 justify-between">
                         <View className="flex flex-row">

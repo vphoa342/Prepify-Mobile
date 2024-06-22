@@ -7,6 +7,7 @@ import { StyleSheet, View } from "react-native";
 import { Card, Checkbox, Divider, Text, useTheme } from "react-native-paper";
 import { StatusScreenContext } from "../context/StatusScreenContext";
 import { StatusScreenActionType } from "../context/status-context.type";
+import makePhoneCall from "$utils/phone";
 
 interface OrderCardProps {
     order: Order;
@@ -45,7 +46,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ ...props }) => {
                     borderTopLeftRadius: 10,
                 }}
                 title="Tên đơn hàng"
-                right={(props) => (
+                right={() => (
                     <View className="flex flex-row items-center  py-0">
                         <Text className="py-0 m-0 ">ID: {order.id}</Text>
                         <Checkbox status="checked" />
@@ -60,8 +61,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ ...props }) => {
                             compact={true}
                             className="rounded-[50px]"
                             textStyle={{ fontSize: 10 }}
-                            children={"Giao lần 1"}
-                        />
+                        >
+                            Giao lần 1
+                        </StyledChip>
                         <StyledChip
                             mode="outlined"
                             compact={true}
@@ -71,8 +73,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ ...props }) => {
                                 marginTop: 0,
                                 marginBottom: 0,
                             }}
-                            children={"Trong ngày"}
-                        />
+                        >
+                            Trong ngày
+                        </StyledChip>
                     </View>
                     <Text>{convertTimeToString(order.datetime)}</Text>
                 </View>
@@ -135,7 +138,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ ...props }) => {
                     >
                         Báo cáo
                     </StyledButton>
-                    <StyledButton>Liên hệ</StyledButton>
+                    <StyledButton onPress={() => makePhoneCall("84339614544")}>
+                        Liên hệ
+                    </StyledButton>
                 </Card.Actions>
             )}
         </Card>

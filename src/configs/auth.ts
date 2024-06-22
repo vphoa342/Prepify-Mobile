@@ -1,5 +1,5 @@
 const auth = {
-    universalLink: "https://prepify.thanhf.dev/app",
+    universalLink: process.env.EXPO_PUBLIC_UNIVERSAL_LINK || "",
     resetPasswordRedirectUrl: "reset-password",
     loginRedirectUrl: "login",
 };

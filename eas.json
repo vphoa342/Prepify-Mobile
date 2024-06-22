@@ -15,7 +15,26 @@
         "gradleCommand": ":app:assembleRelease"
       }
     },
-    "production": {}
+    "preview-apk": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "applicationArchivePath": "android/app/build/outputs/**/*.apk"
+      }
+    },
+    "production": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease",
+        "applicationArchivePath": "android/app/build/outputs/**/*.apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://prepify.thanhf.dev",
+        "EXPO_PUBLIC_MAPBOX_API_KEY": "pk.eyJ1IjoidnBob2EzNCIsImEiOiJjbHhidG1lZDQwNG1qMmtwdGZ4ajh5OHpnIn0.wKi_pjuAhFplhn3Bnaeh-w",
+        "EXPO_PUBLIC_UNIVERSAL_LINK": "https://prepify.thanhf.dev/app"
+      }
+    }
   },
   "submit": {
     "production": {}

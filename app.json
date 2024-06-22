@@ -19,22 +19,40 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "googleServicesFile": "./google-services.json",
+      "package": "com.anonymous.PrepifyMobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "notification": {
+      "icon": "./assets/favicon.png",
+      "color": "#000000"
+    },
     "plugins": [
-      "@react-native-google-signin/google-signin",
+      [
+        "expo-asset"
+      ],
       [
         "expo-custom-assets",
         {
-          // Add asset directory paths, the plugin copies the files in the given paths to the app bundle folder named Assets
           "assetsPaths": [
             "./assets/riv/"
           ]
-          // if you want custom assets directory name use this prop (default: "Assets")
-          // "assetsDirName": "testName"
+        }
+      ],
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidnBob2EzNCIsImEiOiJjbHhidmN1d3gzZmRhMmtzNHE0amswNXBwIn0.j6ilfy4O-yyhV_LCk5NmUQ",
+          "RNMapboxMapsVersion": "11.0.0"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ],

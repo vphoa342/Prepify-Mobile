@@ -1,18 +1,12 @@
 import StyledButton from "$components/ui/StyledButton";
+import makePhoneCall from "$utils/phone";
+import { ChevronRightIcon, PhoneForwardedIcon } from "lucide-react-native";
 import React from "react";
-import { View, useWindowDimensions } from "react-native";
-import {
-    Button,
-    Card,
-    Dialog,
-    Portal,
-    Text,
-    useTheme,
-} from "react-native-paper";
+import { Pressable, View, useWindowDimensions } from "react-native";
+import { Dialog, Text, useTheme } from "react-native-paper";
 import { StatusScreenContext } from "../context/StatusScreenContext";
 import { StatusScreenActionType } from "../context/status-context.type";
 import DialogItem from "./DialogItem";
-import { ChevronRightIcon, PhoneForwardedIcon } from "lucide-react-native";
 
 const CanceledDialog = () => {
     const deviceWidth = useWindowDimensions().width;
@@ -56,9 +50,11 @@ const CanceledDialog = () => {
                 <View className="flex flex-row justify-between mt-4">
                     <View className="flex flex-row">
                         <PhoneForwardedIcon color={theme.colors.primary} />
-                        <Text className="ml-2" variant="bodyLarge">
-                            Liên hệ khách hàng
-                        </Text>
+                        <Pressable onPress={() => makePhoneCall("0943617015")}>
+                            <Text className="ml-2" variant="bodyLarge">
+                                Liên hệ khách hàng
+                            </Text>
+                        </Pressable>
                     </View>
                     <ChevronRightIcon color={theme.colors.primary} />
                 </View>
