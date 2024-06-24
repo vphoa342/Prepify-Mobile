@@ -54,6 +54,26 @@ const statusScreenReducerHandler = (
                 ...state,
                 isCanceledDialogVisible: false,
             };
+        case StatusScreenActionType.SHOW_UPLOAD_IMAGE_DIALOG:
+            return {
+                ...state,
+                isUploadImageDialogVisible: true,
+            };
+        case StatusScreenActionType.HIDE_UPLOAD_IMAGE_DIALOG:
+            return {
+                ...state,
+                isUploadImageDialogVisible: false,
+            };
+        case StatusScreenActionType.SET_ORDERS:
+            return {
+                ...state,
+                orders: payload.orders,
+            };
+        case StatusScreenActionType.SET_IMAGES:
+            return {
+                ...state,
+                images: payload.images,
+            };
         default:
             return state;
     }
