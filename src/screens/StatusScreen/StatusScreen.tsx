@@ -14,6 +14,7 @@ import {
 } from "./context/StatusScreenContext";
 import DeliveredDialog from "./components/DeliveredDialog";
 import CanceledDialog from "./components/CanceledDialog";
+import UploadImageDialog from "./components/UploadImageDialog";
 
 const WrappedStatusScreen = () => {
     const { orderStatus } = React.useContext(StatusScreenContext);
@@ -33,6 +34,7 @@ const WrappedStatusScreen = () => {
                     <DeliveredDialog />
                     <DelayedDialog />
                     <CanceledDialog />
+                    <UploadImageDialog />
                 </Portal>
             </ScrollView>
         </SafeAreaView>

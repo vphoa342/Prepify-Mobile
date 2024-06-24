@@ -5,7 +5,7 @@ import {
     CircleCheckBigIcon,
 } from "lucide-react-native";
 import React from "react";
-import { View, useWindowDimensions } from "react-native";
+import { Pressable, View, useWindowDimensions } from "react-native";
 import { Dialog, Text, useTheme } from "react-native-paper";
 import { StatusScreenContext } from "../context/StatusScreenContext";
 import { StatusScreenActionType } from "../context/status-context.type";
@@ -14,7 +14,7 @@ import DialogItem from "./DialogItem";
 const DeliveredDialog = () => {
     const theme = useTheme();
     const deviceWidth = useWindowDimensions().width;
-    const { isDeliveredDialogVisible, dispatch } =
+    const { isDeliveredDialogVisible, images, dispatch } =
         React.useContext(StatusScreenContext);
 
     const hideDialog = () => {
@@ -27,6 +27,13 @@ const DeliveredDialog = () => {
     const showReportDialog = () => {
         dispatch({
             type: StatusScreenActionType.SHOW_REPORT_DIALOG,
+            payload: {},
+        });
+    };
+
+    const showUploadImageDialog = () => {
+        dispatch({
+            type: StatusScreenActionType.SHOW_UPLOAD_IMAGE_DIALOG,
             payload: {},
         });
     };
@@ -58,10 +65,23 @@ const DeliveredDialog = () => {
                             B1: Chụp ảnh
                         </Text>
                     </View>
-                    <View className="flex flex-row underline">
-                        <Text>Xem ảnh (1)</Text>
-                        <ChevronRightIcon color={theme.colors.primary} />
-                    </View>
+                    <Pressable
+                        onPress={() => {
+                            showUploadImageDialog();
+                            hideDialog();
+                        }}
+                    >
+                        <View className="flex flex-row underline">
+                            {images?.length === 0 ? (
+                                <Text className="underline">Chụp ảnh</Text>
+                            ) : (
+                                <Text className="underline">
+                                    Xem ảnh <Text>({images?.length})</Text>
+                                </Text>
+                            )}
+                            <ChevronRightIcon color={theme.colors.primary} />
+                        </View>
+                    </Pressable>
                 </View>
                 <View className="flex flex-row justify-between mt-4">
                     <View className="flex flex-row">

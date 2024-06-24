@@ -11,7 +11,10 @@ const initialState: StatusScreenState = {
     isCanceledDialogVisible: false,
     isDeliveredDialogVisible: false,
     isDelayedDialogVisible: false,
+    isUploadImageDialogVisible: false,
     orderStatus: OrderStatus.DELIVERING,
+    orders: [],
+    images: [],
 };
 
 const StatusScreenContext = createContext<StatusScreenContextType>({
